@@ -307,4 +307,84 @@ public class BookAddress {
 			System.out.println("--------------------------------------------");
 		}
 	}
+	/*
+	 * method to sort the list based on name or city or state or zip
+	 */
+
+	public void sortPersonByNameCityStateZip(int option) {
+
+		Map<String, List<BookAddress>> map = new HashMap<>();
+		if (option == 1) {
+			for (int j = 0; j < contact.size(); j++) {
+				BookAddress object = contact.get(j);
+				if (map.containsKey(object.first_name)) {
+					List<BookAddress> temp = map.get(object.first_name);
+					temp.add(object);
+					map.put(object.first_name, temp);
+				} else {
+					List<BookAddress> temp = new ArrayList<>();
+					temp.add(object);
+					map.put(object.first_name, temp);
+				}
+			}
+		} else if (option == 2) {
+			for (int j = 0; j < contact.size(); j++) {
+				BookAddress object = contact.get(j);
+				if (map.containsKey(object.city)) {
+					List<BookAddress> temp = map.get(object.city);
+					temp.add(object);
+					map.put(object.city, temp);
+				} else {
+					List<BookAddress> temp = new ArrayList<>();
+					temp.add(object);
+					map.put(object.city, temp);
+				}
+			}
+		} else if (option == 3) {
+			for (int j = 0; j < contact.size(); j++) {
+				BookAddress object = contact.get(j);
+				if (map.containsKey(object.state)) {
+					List<BookAddress> temp = map.get(object.state);
+					temp.add(object);
+					map.put(object.state, temp);
+				} else {
+					List<BookAddress> temp = new ArrayList<>();
+					temp.add(object);
+					map.put(object.state, temp);
+				}
+			}
+		} else if (option == 4) {
+			for (int j = 0; j < contact.size(); j++) {
+				BookAddress object = contact.get(j);
+				if (map.containsKey(object.zip)) {
+					List<BookAddress> temp = map.get(object.zip);
+					temp.add(object);
+					map.put(object.zip, temp);
+				} else {
+					List<BookAddress> temp = new ArrayList<>();
+					temp.add(object);
+					map.put(object.zip, temp);
+				}
+			}
+		} else {
+			System.out.println("choose correct option");
+		}
+		Map<String, List<BookAddress>> sortedMap = map.entrySet().stream().sorted(Map.Entry.comparingByKey())
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue,
+						LinkedHashMap::new));
+		for (Map.Entry<String, List<BookAddress>> entry : sortedMap.entrySet()) {
+			for (BookAddress a : entry.getValue()) {
+				System.out.println("First Name:" + a.first_name);
+				System.out.println("Last Name:" + a.last_name);
+				System.out.println("Address:" + a.address);
+				System.out.println("City:" + a.city);
+				System.out.println("State:" + a.state);
+				System.out.println("Zip:" + a.zip);
+				System.out.println("Phone number:" + a.phone_number);
+				System.out.println("E-mail:" + a.email);
+				System.out.println("--------------------------------------------");
+			}
+		}
+	}
+
 }
