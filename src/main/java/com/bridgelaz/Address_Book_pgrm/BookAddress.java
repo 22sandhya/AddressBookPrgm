@@ -200,7 +200,7 @@ public class BookAddress {
 	/*
 	 * method to search a particular contact based on city or state
 	 */
-	public void search(String place) {
+	public void search1(String place) {
 		for (int j = 0; j < contact.size(); j++) {
 			BookAddress object = contact.get(j);
 			if (object.city.equals(place) || object.state.equals(place)) {
@@ -222,16 +222,64 @@ public class BookAddress {
 		}
 	}
 
-	public void viewPersonByCity(String city) {
-		Map<String, String> cityMap = new HashMap<String, String>();
+	/*
+	 * method to search a particular contact based on city or state
+	 */
+	public void search(String place) {
 		for (int j = 0; j < contact.size(); j++) {
 			BookAddress object = contact.get(j);
-			cityMap.put(object.first_name, object.city);
+			if (object.city.equals(place) || object.state.equals(place)) {
+				System.out.println(object.first_name + " " + object.last_name);
+			}
+		}
+	}
+
+	/*
+	 * method to view a particular contact based on state
+	 */
+	public void viewPersonByState() {
+		Map<String, List<String>> stateMap = new HashMap<>();
+		for (int j = 0; j < contact.size(); j++) {
+			BookAddress object = contact.get(j);
+			if (stateMap.containsKey(object.state)) {
+				List<String> temp = stateMap.get(object.state);
+				temp.add(object.first_name);
+				stateMap.put(object.state, temp);
+			} else {
+				List<String> temp = new ArrayList<>();
+				temp.add(object.first_name);
+				stateMap.put(object.state, temp);
+			}
+		}
+		for (Map.Entry m : stateMap.entrySet()) {
+
+			System.out.println(m.getKey() + " : " + m.getValue());
+			System.out.println("There are " + ((List<String>) m.getValue()).size() + " persons in state " + m.getKey());
+		}
+	}
+
+	/*
+	 * method to view a particular contact based on city
+	 */
+	public void viewPersonByCity() {
+		Map<String, List<String>> cityMap = new HashMap<>();
+		for (int j = 0; j < contact.size(); j++) {
+			BookAddress object = contact.get(j);
+			if (cityMap.containsKey(object.city)) {
+				List<String> temp = cityMap.get(object.city);
+				temp.add(object.first_name);
+				cityMap.put(object.city, temp);
+			} else {
+				List<String> temp = new ArrayList<>();
+				temp.add(object.first_name);
+				cityMap.put(object.city, temp);
+			}
 		}
 		for (Map.Entry m : cityMap.entrySet()) {
-			if (m.getValue().equals(city)) {
-				System.out.println(m.getKey());
-			}
+
+			System.out.println(m.getKey() + " : " + m.getValue());
+			System.out.println("There are " + ((List<String>) m.getValue()).size() + " persons in city " + m.getKey());
+
 		}
 	}
 }
