@@ -1,9 +1,16 @@
 package com.bridgelaz.Address_Book_pgrm;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class BookAddress {
+
 	public ArrayList<BookAddress> contact = new ArrayList<>();
 	public Scanner sc = new Scanner(System.in);
 
@@ -57,6 +64,30 @@ public class BookAddress {
 			String email = sc.nextLine();
 			contact.add(new BookAddress(first_name, last_name, address, city, state, zip, phone_number, email));
 		}
+	}
+
+	// writes the data from the file
+	public void writeFile(String file) {
+		try {
+			FileWriter writer = new FileWriter(file + ".txt", true);
+			for (int j = 0; j < contact.size(); j++) {
+				BookAddress object = contact.get(j);
+				writer.write("\nfirstname:" + object.first_name + "\nlastname:" + object.last_name + "\naddress:"
+						+ object.address + "\ncity:" + object.city + "\nstate:" + object.state + "\nzip:" + object.zip
+						+ "\nphone number:" + object.phone_number + "\nemail:" + object.email + "\n");
+			}
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// reads the data from the file
+	public void readFile(String file) throws IOException {
+		FileReader fr = new FileReader(file + ".txt");
+		int i;
+		while ((i = fr.read()) != -1)
+			System.out.print((char) i);
 	}
 
 	// method to display the addressbook
@@ -199,31 +230,6 @@ public class BookAddress {
 	/*
 	 * method to search a particular contact based on city or state
 	 */
-	public void search1(String place) {
-		for (int j = 0; j < contact.size(); j++) {
-			BookAddress object = contact.get(j);
-			if (object.city.equals(place) || object.state.equals(place)) {
-				System.out.println(object.first_name + " " + object.last_name);
-			}
-		}
-	}
-
-	public void viewPersonByState(String state) {
-		Map<String, String> stateMap = new HashMap<String, String>();
-		for (int j = 0; j < contact.size(); j++) {
-			BookAddress object = contact.get(j);
-			stateMap.put(object.first_name, object.state);
-		}
-		for (Map.Entry m : stateMap.entrySet()) {
-			if (m.getValue().equals(state)) {
-				System.out.println(m.getKey());
-			}
-		}
-	}
-
-	/*
-	 * method to search a particular contact based on city or state
-	 */
 	public void search(String place) {
 		for (int j = 0; j < contact.size(); j++) {
 			BookAddress object = contact.get(j);
@@ -279,32 +285,6 @@ public class BookAddress {
 			System.out.println(m.getKey() + " : " + m.getValue());
 			System.out.println("There are " + ((List<String>) m.getValue()).size() + " persons in city " + m.getKey());
 
-		}
-	}
-
-	/*
-	 * method to sort the list based on name
-	 */
-	public void sortByName() {
-		Map<String, BookAddress> map = new HashMap<String, BookAddress>();
-		for (int j = 0; j < contact.size(); j++) {
-			BookAddress object = contact.get(j);
-			map.put(object.first_name, object);
-		}
-		Map<String, BookAddress> sortedMap = map.entrySet().stream().sorted(Map.Entry.comparingByKey())
-				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue,
-						LinkedHashMap::new));
-
-		for (Map.Entry<String, BookAddress> entry : sortedMap.entrySet()) {
-			System.out.println("First Name:" + entry.getValue().first_name);
-			System.out.println("Last Name:" + entry.getValue().last_name);
-			System.out.println("Address:" + entry.getValue().address);
-			System.out.println("City:" + entry.getValue().city);
-			System.out.println("State:" + entry.getValue().state);
-			System.out.println("Zip:" + entry.getValue().zip);
-			System.out.println("Phone number:" + entry.getValue().phone_number);
-			System.out.println("E-mail:" + entry.getValue().email);
-			System.out.println("--------------------------------------------");
 		}
 	}
 	/*
@@ -386,5 +366,4 @@ public class BookAddress {
 			}
 		}
 	}
-
 }
