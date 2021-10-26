@@ -29,6 +29,21 @@ class Contactdetails {
 
 	}
 
+	public void replace(String name, String newname) {
+
+		boolean result = (Arrays.asList(Firstname).contains(name));
+		if (result == true) {
+			Firstname[0] = newname;
+		}
+		// boolean contains = Arrays.stream(Firstname).anyMatch("name"::equals);
+		// for(int i=0;i<10;i++)
+		// {
+
+		// }
+		LOG.info("Firstname" + Arrays.toString(Firstname));
+
+	}
+
 }
 
 public class BookAddress extends Contactdetails {
@@ -71,6 +86,19 @@ public class BookAddress extends Contactdetails {
 					contact.getValue(phonenumber, address, firstname, lastname, length, time);
 				}
 				// contact.getValue(phonenumber,address,firstname,lastname);
+				break;
+
+			case 2:
+				Scanner sc = new Scanner(System.in);
+				LOG.info("enter the name you want to rename");
+				String name = sc.nextLine();
+
+				Scanner next = new Scanner(System.in);
+				LOG.info("enter the new name");
+				String newname = next.nextLine();
+
+				contact.replace(name, newname);
+
 				break;
 
 			default:
