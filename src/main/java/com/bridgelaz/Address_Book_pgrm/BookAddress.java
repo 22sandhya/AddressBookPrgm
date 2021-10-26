@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 public class BookAddress {
 	private static final Scanner sc = new Scanner(System.in);
-	private final Map<String, Addresses> dictionary = new HashMap<>();
+	private static final Map<String, Addresses> dictionary = new HashMap<>();
 
 	public static void main(String[] args) {
 		BookAddress addressBook = new BookAddress();
@@ -25,6 +25,10 @@ public class BookAddress {
 				System.out.println("Enter new Bookname");
 				sc.nextLine();
 				String bookName = sc.nextLine();
+				if (dictionary.containsKey(bookName)) {
+					System.out.println("Addressbook already exist");
+					break;
+				}
 				addressBook.createAddressBook(bookName);
 				addressBook.printAddressBooksNames();
 				break;
